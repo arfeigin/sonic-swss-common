@@ -56,6 +56,8 @@ void WarmStart::initialize(const std::string &app_name,
             std::unique_ptr<Table>(new Table(warmStart.m_stateDb.get(), STATE_WARM_RESTART_TABLE_NAME));
     warmStart.m_cfgWarmRestartTable =
             std::unique_ptr<Table>(new Table(warmStart.m_cfgDb.get(), CFG_WARM_RESTART_TABLE_NAME));
+    warmStart.m_stateFastRestartEnableTable =
+            std::unique_ptr<Table>(new Table(warmStart.m_stateDb.get(), STATE_FAST_RESTART_ENABLE_TABLE_NAME));
 
     warmStart.m_initialized = true;
 }
@@ -137,6 +139,20 @@ bool WarmStart::checkWarmStart(const std::string &app_name,
                     restore_count);
 
     return true;
+}
+
+/*
+ * Checks if fast reboot is in progress
+ */
+bool WarmStart::checkFastReboot()
+{
+    std::string value;
+
+    auto& warmStart = getInstance();
+
+    // Check system level warm-restart config first
+    warmStart.m_stateFastRestartEnableTable->hget("system", "enable", value);
+    return (value == "true");
 }
 
 /*

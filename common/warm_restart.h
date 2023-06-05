@@ -53,6 +53,8 @@ public:
                                const std::string &docker_name,
                                const bool incr_restore_cnt = true);
 
+    static bool checkFastReboot();
+
     static bool isWarmStart(void);
 
     static bool isSystemWarmRebootEnabled(void);
@@ -78,6 +80,7 @@ private:
     std::unique_ptr<Table>               m_stateWarmRestartEnableTable;
     std::unique_ptr<Table>               m_stateWarmRestartTable;
     std::unique_ptr<Table>               m_cfgWarmRestartTable;
+    std::unique_ptr<Table>               m_stateFastRestartEnableTable;
     bool                                 m_initialized;
     bool                                 m_enabled;
     bool                                 m_systemWarmRebootEnabled;
