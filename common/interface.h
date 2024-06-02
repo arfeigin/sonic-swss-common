@@ -6,6 +6,16 @@
 
 namespace swss {
 
+#if defined(SWIG) && defined(SWIGPYTHON)
+%pythoncode %{
+    iface_name_max_length = IFNAMSIZ
+    def validate_interface_name_length(iface_name):
+    if len(iface_name) == 0:
+        return False
+    return len(iface_name) < IFNAMSIZ
+%}
+#endif
+
 inline bool isInterfaceNameLenOk(const std::string &ifaceName)
 {
     if (!validate_interface_name_length(ifaceName))
@@ -15,19 +25,6 @@ inline bool isInterfaceNameLenOk(const std::string &ifaceName)
     }
     return true;
 }
-
-#if defined(SWIG) && defined(SWIGPYTHON)
-%pythoncode %{
-    iface_name_max_length = IFNAMSIZ
-    def validate_interface_name_length(iface_name):
-    """
-    Verify that interface name length does not exceed IFNAMSIZ
-    """
-    if len(iface_name) == 0:
-        return False
-    return True if len(iface_name) < IFNAMSIZ else False
-%}
-#endif
 
 }
 
