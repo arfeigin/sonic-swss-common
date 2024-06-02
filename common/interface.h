@@ -18,7 +18,7 @@ namespace swss {
 
 inline bool isInterfaceNameLenOk(const std::string &ifaceName)
 {
-    if (!validate_interface_name_length(ifaceName))
+    if (ifaceName.empty() || ifaceName.len() >= IFNAMSIZ)
     {
         SWSS_LOG_ERROR("Invalid interface name %s length, it must not exceed %d characters", ifaceName.c_str(), IFNAMSIZ);
         return false;
