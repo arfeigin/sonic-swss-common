@@ -16,11 +16,18 @@ bool isInterfaceNameLenOk(const std::string &ifaceName)
     return true;
 }
 
+size_t ifaceNameMaxLen()
+{
+    return IFNAMSIZ;
+}
+
 #if defined(SWIG) && defined(SWIGPYTHON)
 %pythoncode %{
-    iface_name_max_length = IFNAMSIZ
     def validate_interface_name_length(iface_name):
         return isInterfaceNameLenOk(iface_name)
+
+    def iface_name_max_length():
+        return ifaceNameMaxLen()
 %}
 #endif
 
